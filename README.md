@@ -79,7 +79,7 @@ The `.\test_private` folder is built as the training one. It contains the privat
 
 Each dataset contains simulations with distinct pairs of $(a,b)$ parameters, solved numerically. The private test set is generated with a different distribution of $(a,b)$ parameters from the training set, so models should be able to generalize well, thus should understand the underlying physics...
 
-> Models must be trained on the training data! Once trained, they are run on the unseen private test data
+> ⚠️ Models must be trained on the training data! Once trained, they are run on the unseen private test data ⚠️
 
 ---
 
@@ -166,8 +166,6 @@ Be explicit about:
 - your preprocessing choices,
 - your normalization strategy,
 - your model-selection protocol.
-
-> ⚠️ Models should be comparable ! A model with more inputs, more parameters has an advantage... Beware of performing a **fair** benchmark ! 
 
 ---
 
