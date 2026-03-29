@@ -24,7 +24,8 @@ $$
 
 The dataset is generated numerically on a common uniform mesh. Your role is to build and compare machine learning models that map the input fields to the output solution fields.
 
-<img width="1001" height="384" alt="tutorial-input-output" src="https://github.com/user-attachments/assets/cf7a8293-366f-40db-acd2-5d3b166299ec" />
+<img width="1001" height="384" alt="image" src="https://github.com/user-attachments/assets/e6d91d49-3f53-4453-89b4-9870e170b791" />
+
 
 
 This tutorial is part of a broader reflection on **hybrid AI**, from general-purpose architectures to more physically informed models. The course material motivates the distinction between observational, inductive, and learning biases, and highlights approaches such as CNNs, PINNs, and neural operators. You can explore the three possible ways to inform models, where inductive and learning biases are the most natural.
