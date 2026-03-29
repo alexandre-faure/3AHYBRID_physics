@@ -52,7 +52,7 @@ This tutorial is therefore organized as a progression:
 
 You are given a dataset of input/output pairs:
 
-- **Input:** data describing the forcing term $f(x,y)$ (or any other usefull information provided in the training folder...).
+- **Input:** data describing the forcing term $f(x,y)$ (or any other useful information provided in the training folder...).
 - **Output:** the numerical solution $u(x,y)$ on the grid
 
 Your objective is to learn the mapping
@@ -67,18 +67,18 @@ and to obtain the **best generalization performance on the separate private test
 
 ## Dataset
 
-There are two folders in the repository: `.\training` where :
+There are two folders in the repository: `.\training`, where :
 
 - `source.npy` contains the forcing term $f$ on the mesh
 - `u_full.npy` is the target
 - `x_grid.py` and `y_grid.npy` are the mesh coordinates
-- `params.npy` contains the parameters $a$ and $b$ for each simulation.
+- the parameters $a$ and $b$ for each simulation are not known !
 
 The `.\test_private` folder is built as the training one. It contains the private test data used to evaluate the models. 
 
 Each dataset contains simulations with distinct pairs of $(a,b)$ parameters, solved numerically. The private test set is generated with a different distribution of $(a,b)$ parameters from the training set, so models should be able to generalize well, thus should understand the underlying physics...
 
-> Models must be trained on the training data ! Once trained, they are run on the unseen private test data
+> Models must be trained on the training data! Once trained, they are run on the unseen private test data
 
 ---
 
