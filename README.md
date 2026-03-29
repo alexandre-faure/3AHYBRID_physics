@@ -1,5 +1,8 @@
 # Tutorial - Hybrid AI for PDE Modeling
 
+<img width="664" height="276" alt="image" src="https://github.com/user-attachments/assets/8255a980-ae66-4170-a54a-fdb1b5596697" />
+
+
 ## Overview
 
 In this practical session, we study a supervised learning problem at the intersection of numerical simulation and machine learning.
@@ -13,32 +16,35 @@ $$
 \quad \text{in } \Omega = [0,1]^2
 $$
 
-with homogeneous boundary conditions, and with source terms varying across simulations according to parameters such as
+with homogeneous Dirichlet boundary conditions $u(x,y)=0 \quad \forall x,y\in \partial\Omega$, and with source terms varying across simulations according to parameters such as
 
 $$
 f(x,y) = x \sin(a\pi y) + y \sin(b\pi x).
 $$
 
-The dataset is generated numerically on a common uniform mesh. Your role is **not** to regenerate the data, but to build and compare machine learning models that map the input fields to the output solution fields.
+The dataset is generated numerically on a common uniform mesh. Your role is to build and compare machine learning models that map the input fields to the output solution fields.
 
-This TD is part of a broader reflection on **hybrid AI**, from general-purpose architectures to more physically informed models. The course material motivates the distinction between observational, inductive, and learning biases, and highlights approaches such as CNNs, PINNs, and neural operators.
+<img width="1001" height="384" alt="tutorial-input-output" src="https://github.com/user-attachments/assets/cf7a8293-366f-40db-acd2-5d3b166299ec" />
+
+
+This tutorial is part of a broader reflection on **hybrid AI**, from general-purpose architectures to more physically informed models. The course material motivates the distinction between observational, inductive, and learning biases, and highlights approaches such as CNNs, PINNs, and neural operators. You can explore the three possible ways to inform models, where inductive and learning biases are the most natural.
 
 ---
 
-## Pedagogical objective
+## Objective
 
 The goal is simple:
 
-> **Design the best possible test-time predictive model for this PDE surrogate task.**
+> **Design the best possible predictive model for this PDE on the private test data.**
 
 You must begin with **standard, non-informed models**, then move toward **more structured or physics-aware methods**.
 
-This TD is therefore organized as a progression:
+This tutorial is therefore organized as a progression:
 
 1. **Start with generic machine learning baselines**
 2. **Assess their strengths and limits**
 3. **Introduce more sophisticated models**
-4. **Discuss what is gained by adding inductive bias or physical structure**
+4. **Discuss what is gained by adding inductive bias or physical structure or more**
 
 ---
 
@@ -46,7 +52,7 @@ This TD is therefore organized as a progression:
 
 You are given a dataset of input/output pairs:
 
-- **Input:** data describing the forcing term $f(x,y)$ (or additional information...).
+- **Input:** data describing the forcing term $f(x,y)$ (or any other usefull information provided in the training folder...).
 - **Output:** the numerical solution $u(x,y)$ on the grid
 
 Your objective is to learn the mapping
@@ -55,7 +61,7 @@ $$
 \text{inputs} \longmapsto u(x,y)
 $$
 
-and to obtain the **best generalization performance on the separate test set**.
+and to obtain the **best generalization performance on the separate private test set**.
 
 ---
 
@@ -68,7 +74,11 @@ There are two folders in the repository: `.\training` where :
 - `x_grid.py` and `y_grid.npy` are the mesh coordinates
 - `params.npy` contains the parameters $a$ and $b$ for each simulation.
 
-The `.\test` folder is built as the training one. It contains the test data used to evaluate the models. 
+The `.\test_private` folder is built as the training one. It contains the private test data used to evaluate the models. 
+
+Each dataset contains simulations with distinct pairs of $(a,b)$ parameters, solved numerically. The private test set is generated with a different distribution of $(a,b)$ parameters from the training set, so models should be able to generalize well, thus should understand the underlying physics...
+
+> Models must be trained on the training data ! Once trained, they are run on the unseen private test data
 
 ---
 
@@ -92,6 +102,9 @@ A convolutional neural network operating on the grid.
 
 The CNN is still **not physics-informed**, but it does exploit the fact that the data lives on a regular 2D mesh. It should therefore provide a stronger baseline than the MLP in most cases.
 
+<img width="3738" height="1905" alt="diverse-backbone" src="https://github.com/user-attachments/assets/775c8be4-9917-4118-a672-dcffa5467f5d" />
+
+
 ---
 
 ## Then: explore more advanced methods
@@ -106,10 +119,17 @@ Possible directions include:
 - using automatic differentiation when relevant,
 - building a **hybrid loss** combining data fitting and physical consistency.
 
+<img width="750" height="352" alt="image" src="https://github.com/user-attachments/assets/6ff31216-8a22-4b64-92aa-84918afe3f32" />
+
+
+
+
 ### Operator-learning approaches
 - Neural Operator such as the Fourier version (FNO),
 - other neural operator variants,
 - models designed to learn mappings between fields rather than vectors.
+
+<img width="3799" height="1251" alt="image" src="https://github.com/user-attachments/assets/da1fa777-9508-44ce-855a-d1e6fde99383" />
 
 ---
 
@@ -135,7 +155,6 @@ Visual comparisons between target and prediction are strongly encouraged.
 You may use several complementary metrics, for example:
 
 - **MSE** or **RMSE**
-- **relative \(L^2\) error**
 - **MAE**
 - visual comparison of predicted vs true fields
 - error maps
@@ -146,6 +165,8 @@ Be explicit about:
 - your preprocessing choices,
 - your normalization strategy,
 - your model-selection protocol.
+
+> ⚠️ Models should be comparable ! A model with more inputs, more parameters has an advantage... Beware of performing a **fair** benchmark ! 
 
 ---
 
@@ -176,27 +197,3 @@ A good strategy is:
 6. Propose and test a more advanced model
 7. Analyze whether adding structure or physics improves performance
 
----
-
-## Repository structure
-
-A possible repository organization is:
-
-```text
-.
-├── README.md
-├── data/
-│   ├── train/
-│   ├── val/
-│   └── test/
-├── notebooks/
-│   └── td_hybrid_ai.ipynb
-├── src/
-│   ├── data.py
-│   ├── models.py
-│   ├── train.py
-│   ├── eval.py
-│   └── utils.py
-└── results/
-    ├── figures/
-    └── logs/
