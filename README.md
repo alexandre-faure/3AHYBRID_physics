@@ -2,7 +2,6 @@
 
 <img width="664" height="276" alt="image" src="https://github.com/user-attachments/assets/8255a980-ae66-4170-a54a-fdb1b5596697" />
 
-
 ## Overview
 
 In this practical session, we study a supervised learning problem at the intersection of numerical simulation and machine learning.
@@ -25,8 +24,6 @@ $$
 The dataset is generated numerically on a common uniform mesh. Your role is to build and compare machine learning models that map the input fields to the output solution fields.
 
 <img width="1001" height="384" alt="image" src="https://github.com/user-attachments/assets/e6d91d49-3f53-4453-89b4-9870e170b791" />
-
-
 
 This tutorial is part of a broader reflection on **hybrid AI**, from general-purpose architectures to more physically informed models. The course material motivates the distinction between observational, inductive, and learning biases, and highlights approaches such as CNNs, PINNs, and neural operators. You can explore the three possible ways to inform models, where inductive and learning biases are the most natural.
 
@@ -75,7 +72,7 @@ There are two folders in the repository: `.\training`, where :
 - `x_grid.py` and `y_grid.npy` are the mesh coordinates
 - the parameters $a$ and $b$ for each simulation are not known !
 
-The `.\test_private` folder is built as the training one. It contains the private test data used to evaluate the models. 
+The `.\test_private` folder is built as the training one. It contains the private test data used to evaluate the models.
 
 Each dataset contains simulations with distinct pairs of $(a,b)$ parameters, solved numerically. The private test set is generated with a different distribution of $(a,b)$ parameters from the training set, so models should be able to generalize well, thus should understand the underlying physics...
 
@@ -92,6 +89,7 @@ The following two models are **mandatory** and must be implemented, trained, and
 A fully connected neural network that ignores most of the spatial structure of the problem.
 
 Typical possibilities:
+
 - flatten the input grid and predict the flattened output grid,
 - or predict from pointwise values $(x,y)\to u(x,y)$.
 
@@ -105,7 +103,6 @@ The CNN is still **not physics-informed**, but it does exploit the fact that the
 
 <img width="3738" height="1905" alt="diverse-backbone" src="https://github.com/user-attachments/assets/775c8be4-9917-4118-a672-dcffa5467f5d" />
 
-
 ---
 
 ## Then: explore more advanced methods
@@ -115,6 +112,7 @@ After the two mandatory baselines, you must test at least **one more sophisticat
 Possible directions include:
 
 ### Physics-informed or hybrid approaches
+
 - adding a **PDE residual term** to the loss,
 - penalizing boundary-condition violations,
 - using automatic differentiation when relevant,
@@ -122,10 +120,8 @@ Possible directions include:
 
 <img width="750" height="352" alt="image" src="https://github.com/user-attachments/assets/6ff31216-8a22-4b64-92aa-84918afe3f32" />
 
-
-
-
 ### Operator-learning approaches
+
 - Neural Operator such as the Fourier version (FNO),
 - other neural operator variants,
 - models designed to learn mappings between fields rather than vectors.
@@ -162,6 +158,7 @@ You may use several complementary metrics, for example:
 - optional: PDE residual or boundary-condition violation
 
 Be explicit about:
+
 - your train/validation/test split,
 - your preprocessing choices,
 - your normalization strategy,
@@ -195,4 +192,3 @@ A good strategy is:
 5. Compare them carefully
 6. Propose and test a more advanced model
 7. Analyze whether adding structure or physics improves performance
-
